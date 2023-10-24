@@ -1,7 +1,10 @@
 const input = document.querySelector('input');
+const delay = 300; // Adjust the delay in milliseconds (e.g., 300 milliseconds)
 const btn = document.querySelector('button');
 const dictionary = document.querySelector('.dictionary-table');
 const dictionaryPath = './data/dictionary.json'; // Assuming dictionary.json is in the same directory as your HTML file
+
+let timeout;
 
 async function dictionarysearch(searchWord) {
     console.log(searchWord);
@@ -43,6 +46,15 @@ async function dictionarysearch(searchWord) {
 }
 
 btn.addEventListener('click', fetchandcreatecolumns)
+
+input.addEventListener('input', function() {
+    clearTimeout(timeout); // clear previous timer (if any)
+
+    timeout = setTimeout(function() {
+        // Perform search
+        fetchandcreatecolumns();
+    }, delay);
+});
 
 async function fetchandcreatecolumns(){
     const result = await dictionarysearch(input.value.trim().toLowerCase());
