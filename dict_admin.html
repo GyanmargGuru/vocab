@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width", initial-scale="1" />
+        <title>Dictionary Admin</title>
+        <link rel="stylesheet" href="style_admin.css">
+    </head>
+    
+    <body>
+        <div class="container">
+            <h2 class="title">Add, Modify or Delete Dictionary Entries</h2>
+            <div class="form-table">
+                <div class="form-row">
+                    <label for="English word">English word</label>
+                    <input
+                        type="text"
+                        id="eword"
+                        placeholder="Enter English word here"
+                    />
+                </div>
+                <div class="form-row">
+                    <label for="Hindi Word">Hindi word</label>
+                    <input
+                        type="text"
+                        id="hword"
+                        placeholder="Enter Hindi word here"
+                    />
+                </div>
+                <div class="form-row">
+                    <label for="English synonyms">English synonyms</label>
+                    <textarea
+                        id="esyn"
+                        name="synonyms"
+                        rows="2"
+                        placeholder="Enter commas separated English synonyms here"
+                    ></textarea>    
+                </div>
+                <div class="form-row">
+                    <label for="Hindi synonyms">Hindi synonyms</label>
+                    <textarea
+                        id="hsyn"
+                        name="synonyms"
+                        rows="2"
+                        placeholder="Enter commas separated Hindi synonyms here"
+                    ></textarea> 
+                </div>
+                <div class="form-row">
+                    <label for="English description">English description</label>
+                    <textarea
+                        id="edes"
+                        name="description"
+                        rows="6"
+                        placeholder="Enter English description here"
+                    ></textarea> 
+                </div>
+                <div class="form-row">
+                    <label for="Hindi description">Hindi description</label>
+                    <textarea
+                        id="hdes"
+                        name="description"
+                        rows="6"
+                        placeholder="Enter Hindi description here"
+                    ></textarea>
+                </div>
+                <div class="btn">
+                    <button class="btn-add" id="add" 
+                    onclick="updateData()">Add Word</button>
+                </div>
+                <div class="btn">
+                    <button class="btn-update" id="update" 
+                    onclick="addData()">Update Word</button>
+                </div>
+            </div>
+        </div>
+
+        <script src="script.js"></script>
+    </body>
+</html>
