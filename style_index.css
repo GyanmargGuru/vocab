@@ -22,7 +22,7 @@ body {
     display: grid;
     place-items: center;
     min-height: 100vh;
-    background-image: url("./images/bg_img.jpg"); 
+    background-color: #0066FF; 
     background-repeat:repeat;
 }
 
