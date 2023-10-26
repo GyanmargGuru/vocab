@@ -58,7 +58,11 @@ input.addEventListener('input', function() {
 
 async function fetchandcreatecolumns(){
     const result = await dictionarysearch(input.value.trim().toLowerCase());
-    if (result !== null) {
+    if (input.value.trim() === '') {
+        // search word is blank
+        dictionary.innerHTML = '';
+    }
+    else if (result !== null) {
         // The result is not null
         dictionary.innerHTML = `
             <div class="column_english">
