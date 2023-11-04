@@ -5,14 +5,28 @@ const dictionary = document.querySelector('.dictionary-table');
 const dictionaryPath = './data/dictionary.json'; // Assuming dictionary.json is in the same directory as your HTML file
 
 let timeout;
+let jsonData = null; // Initialize with null
+
+async function dictionarydw() {
+    fetch(dictionaryPath) // Fetch the JSON file
+        .then(response => response.json()) // Parse the JSON response
+        .then(dataDict => {
+            jsonData = dataDict; // Store the json data in variable to be searched
+        })
+        .catch(error => {
+            console.error("Error loading the dictionary:", error);
+            reject(error);
+        });
+}
+
+dictionarydw(); // Call the dictionary download function when the page loads
 
 async function dictionarysearch(searchWord) {
     console.log(searchWord);
     return new Promise((resolve, reject) => {
-        fetch(dictionaryPath) // Fetch the JSON file
-        .then(response => response.json()) // Parse the JSON response
-        .then(dataDict => {
-            for (const [key, value] of Object.entries(dataDict)) {
+        if (jsonData) {
+            // Use the stored JSON data
+            for (const [key, value] of Object.entries(jsonData)) {
                 if (key.toLowerCase() === searchWord) {
                     const result = [key, value, "key"];
                     console.log("first", result);
@@ -37,11 +51,9 @@ async function dictionarysearch(searchWord) {
             }
             console.log("No Match");
             resolve(null);  // Resolve with null when no match is found
-        })
-        .catch(error => {
-            console.error("Error loading the dictionary:", error);
-            reject(error);
-        });
+        } else {
+            reject("JSON data is not available. Check if it was downloaded when the page loaded first time"); // Reject the promise as JSON data is not available
+        } 
     });
 }
 
