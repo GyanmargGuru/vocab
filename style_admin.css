@@ -26,6 +26,10 @@ body {
     background-repeat:repeat;
 }
 
+.hidden {
+    display: none;
+}
+
 .title {
     display: flex;
     color: #FFD700;
@@ -73,6 +77,28 @@ textarea {
     padding: 0.5rem;
     width: 100%;
     font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.btn-m-add button {
+    width: 100%;
+    padding: 10px;
+    font-size: 2rem;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    cursor: pointer;
+    background-color: #00FF40;
+    color: black;
+    margin-bottom: 50px;
+}
+
+.btn-m-updel button {
+    width: 100%;
+    padding: 10px;
+    font-size: 2rem;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    cursor: pointer;
+    background-color:#FFD700;
+    color: black;
+    margin-bottom: 20px;
 }
 
 .btn button {
