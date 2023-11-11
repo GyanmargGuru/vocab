@@ -110,6 +110,12 @@ textarea {
     margin-bottom: 10px;
 }
 
-.btn button:hover {
-    background-color: #00FF40;
+.backbtn button {
+    width: 100%;
+    font-size: 1rem;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    cursor: pointer;
+    color: white;
+    margin-bottom: 10px;
+    background-color:crimson;
 }
