@@ -53,6 +53,7 @@ async function dictionarysearch(searchWord) {
             resolve(null);  // Resolve with null when no match is found
         } else {
             reject("JSON data is not available. Check if it was downloaded when the page loaded first time"); // Reject the promise as JSON data is not available
+            return;
         } 
     });
 }
