@@ -1,10 +1,3 @@
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    
-}
-
 :root {
     --col-primary: #296eb3;
     --col-secondary: #003b81;
@@ -41,75 +34,102 @@ body {
     margin-bottom: 2rem;
 }
 
-.form-table{
+.form-table {
     display: grid;
-    min-width: 40rem;
-    max-width: 80rem;
-    grid-template-columns: auto auto;
-    align-items: start;
+    max-width: 50rem;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(3, auto);
     column-gap: 1rem;
-    row-gap: 0.5rem;
+    row-gap: 1rem;
+    align-items: center;
 }
 
 .form-row {
     display: flex;
-    flex-direction: column; 
-    margin-bottom: 10px;
+    flex-direction: column;
+    margin-top: 5px; 
+    margin-bottom: 5px;
+    grid-column: span 2; /* Each form row spans two column by default */
 }
+
+ /*The following classes apply to specific form rows that should span specific columns */ 
+.form-table .form-row:nth-child(2), 
+.form-table .form-row:nth-child(3) {
+    grid-column: span 1;
+}
+/*
+.form-table .form-row:nth-child(1),
+.form-table .form-row:nth-child(4),
+.form-table .form-row:nth-child(5),
+.form-table .form-row:nth-child(6),
+.form-table .form-row:nth-child(7) {
+    grid-column: span 2;
+    
+}*/
 
 label {
     color: white;
-    margin-bottom: 5px;
+    text-align: center;
+    margin-bottom: 10px;
     padding: 0.5rem;
     font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
-input{
-    font-size: 1rem;
-    padding: 0.5rem;
-    background-color: white;
-    color: black;
-    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-}
-
+input,
 textarea {
     font-size: 1rem;
     padding: 0.5rem;
-    width: 100%;
+    background-color: white;
+        color: black;
     font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    box-sizing: border-box;
 }
 
-.btn-m-add button {
+.form-table .form-row:nth-child(1) input {
+    margin-top: 16px;
+}
+
+.btn-m-add button,
+.btn-m-updel button,
+.btn-add button,
+.btn-update button,
+.btn-delete button,
+.backbtn button {
     width: 100%;
     padding: 10px;
-    font-size: 2rem;
-    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: 1rem;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     cursor: pointer;
-    background-color: #00FF40;
     color: black;
     margin-bottom: 50px;
 }
 
-.btn-m-updel button {
-    width: 100%;
-    padding: 10px;
-    font-size: 2rem;
-    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    cursor: pointer;
-    background-color:#FFD700;
-    color: black;
-    margin-bottom: 20px;
-}
-
-.btn button {
-    width: 100%;
-    font-size: 1rem;
-    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    cursor: pointer;
-    color: black;
-    margin-bottom: 10px;
-}
-
-.btn button:hover {
+.btn-m-add button {
     background-color: #00FF40;
+    font-size: 2rem;
+}
+
+.btn-m-updel button {
+    background-color:#FFD700;
+    font-size: 2rem;
+    
+}
+
+.btn-add button {
+    background-color: #00FF40;
+}
+
+.btn-update button {
+    background-color: #FFD700;
+}
+
+.btn-delete button {
+    background-color: crimson;
+}
+
+.backbtn button {
+    font-size: 1rem;
+    color: white;
+    background-color:#b85a24;
+    width: 200%;
 }
