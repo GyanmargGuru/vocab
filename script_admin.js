@@ -5,7 +5,7 @@ const dictionaryPath = './data/dictionary.json'; // Assuming dictionary.json is 
 //const btn = document.querySelector('button');
 //const dictionary = document.querySelector('.dictionary-table');
 
-let jsonData = null; // Initialize dictionary json (entire dictionary) with null
+var jsonData = null; // Initialize dictionary json (entire dictionary) with null
 
 async function dictionaryLoad() {
     // This function reads the json file and stores the content as json 
@@ -88,12 +88,12 @@ function collectAddData () {
     const cap_esyn = capitalizeEachWord(esyn);
     const edes = document.getElementById("add_edes").value.trim();
     const sc_edes = toSentenceCase(edes);
-    const hdword = document.getElementById("add_hdword").value;
-    const hrword = document.getElementById("add_hrword").value;
+    const hdword = document.getElementById("add_hdword").value.trim();
+    const hrword = document.getElementById("add_hrword").value.trim();
     const sc_hrword = toSentenceCase(hrword);
-    const hsyn = document.getElementById("add_hsyn").value;
-    const array_hsyn = hsyn.split(',');
-    const hdes = document.getElementById("add_hdes").value;
+    const hsyn = document.getElementById("add_hsyn").value.trim();
+    const array_hsyn = capitalizeEachWord(hsyn);
+    const hdes = document.getElementById("add_hdes").value.trim();
     newWord[sc_eword] = {
         "english_synonyms": cap_esyn,
         "english_description": sc_edes,
@@ -138,7 +138,7 @@ function validateHindiword(wordEntry) {
         isValid = false;
         if (wordEntry["hindi_synonyms"][0] !== "" || wordEntry["hindi_description"] !== "") {
             // Synonyms and Description added without Hindi word
-            alert("Use update if you want to add synonyms or update the description of exiting Hindi words");
+            alert("Use update if you want to add synonyms or update the description of existing Hindi words");
         }
     }
     else if ((wordEntry["hindi_word"][0] !== "" && wordEntry["hindi_word"][1] === "") ||
@@ -152,7 +152,7 @@ function validateHindiword(wordEntry) {
         hindiWord = true;
         // valid hindi word is there, so synonyms and description should also be there
         if (wordEntry["hindi_synonyms"][0] === "" || wordEntry["hindi_description"] === "") {
-            // Hindi word but no synonyms and description
+            // Hindi word but no synonyms or description
             alert("For Hindi word entry, respective synonyms and description is required!");
             isValid = false;
         } else if (wordEntry["hindi_synonyms"][0] !== "" && wordEntry["hindi_description"] !== "") {
@@ -177,7 +177,7 @@ function validateForm(newWord) {
             englishValid = false;
             if (word_entry["english_synonyms"][0] !== "" || word_entry["english_description"] !== "") {
                 // English word with synonyms and description
-                alert("Use update if you want to add synonyms or update the description of exiting English words");
+                alert("Use update if you want to add synonyms or update the description of existing English words");
             }
             var hindiValid = validateHindiword(word_entry);
             if (!hindiValid) {
@@ -202,14 +202,16 @@ function validateForm(newWord) {
             if (englishValid) {
                 if (hindiValid) {
                     wordStatus = [true, englishValid, hindiValid];
+                } else {
+                    wordStatus = [false, englishValid, hindiValid];
                 }
-                wordStatus = [false, englishValid, hindiValid]
             }
             else if (!englishValid) {
                 if (hindiValid) {
                     wordStatus = [false, englishValid, hindiValid];
+                } else {
+                    wordStatus = [false, englishValid, hindiValid];
                 }
-                wordStatus = [false, englishValid, hindiValid]
             }
         }
     }
@@ -274,6 +276,25 @@ addButton.addEventListener('click', () => {
 });
 
 
+function updateJson(newEntry) {
+    console.log(newEntry);
+    fetch('update_json.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json; charset=utf-8',
+        },
+        body: JSON.stringify(newEntry),
+    })
+        .then(response => response.text())
+        .then(data => {
+            alert(data);
+        })
+        .catch((error) => {
+            console.error("Error: ", error);
+        });
+}
+
+
 async function addData() {
     var newEntry = collectAddData();
     console.log(newEntry);
@@ -281,74 +302,56 @@ async function addData() {
     console.log(wordStatus);
     if (wordStatus[0]) {
         //both English and Hindi words are valid
-        try {
-            const duplicateResult = await duplicateOrNew(newEntry);
-            console.log(duplicateResult);
-            if (!duplicateResult) {
-                // if data doesn't already exists
-                var enword = Object.keys(newEntry)[0]; // english word in the new entry
-                var hnwords = newEntry[enword]["hindi_word"]; // hindi word array in the new entry
-                const response = await fetch('save_entry.php', {
-                    method: 'POST',
-                    body: JSON.stringify({ data: newEntry })
-                });
-                const result = await response.text();
-                alert(result);
-            } else {
-                alert(enword + " or " + hnwords + "already exists")
-            }
-        }
-        catch (error) {
-            console.error("Error: ", error);
+        const duplicateResult = await duplicateOrNew(newEntry);
+        console.log(duplicateResult);
+        var enword = Object.keys(newEntry)[0]; // english word in the new entry
+        var hnword = newEntry[enword]["hindi_word"][1] // hindi word in the new entry
+        if (!duplicateResult) {
+            // if data doesn't already exists
+            updateJson(newEntry);
+        } else {
+            alert("Dictinary word " + enword + " and " + hnword + " already exists")
         }
     } else if (wordStatus[1]) {
         // only English word needs to be added
-        try {
-            const duplicateResult = await duplicateOrNew(newEntry);
-            console.log(duplicateResult);
-            if (duplicateResult) {
-                alert(enword + "already exists");
-            } else {
-                // if data doesn't already exists
-                var enword = Object.keys(newEntry)[0]; // english word in the new entry
-                const newEntry[enword] = {
-                    
-                } 
-                const response = await fetch('save_entry.php', {
-                    method: 'POST',
-                    body: JSON.stringify({ data: newEntry })
-                });
-                const result = await response.text();
-                alert(result);
+        const duplicateResult = await duplicateOrNew(newEntry);
+        console.log(duplicateResult);
+        var enword = Object.keys(newEntry)[0]; // english word in the new entry
+        if (!duplicateResult) {
+            // if data doesn't already exists
+            newEntry = {
+                [enword]: {
+                    "english_description": newEntry[enword]["english_description"],
+                    "english_synonyms": newEntry[enword]["english_synonyms"],
+                    "hindi_word": [],
+                    "hindi_description": "",
+                    "hindi_synonyms": ""
+                }
             }
-        }
-        catch (error) {
-            console.error("Error: ", error);
+            updateJson(newEntry);
+        } else {
+                alert("Dictinary word " + enword + " already exists");
         }
     } else if (wordStatus[2]) {
         // only Hindi word needs to be added
-        try {
-            const duplicateResult = await duplicateOrNew(newEntry);
-            console.log(duplicateResult);
-            if (!duplicateResult) {
-                // if data doesn't already exists
-                var hnwords = newEntry[enword]["hindi_word"]; // hindi word array in the new entry
-                const response = await fetch('save_entry.php', {
-                    method: 'POST',
-                    body: JSON.stringify({ data: newEntry })
-                });
-                const result = await response.text();
-                alert(result);
-            } else {
-                alert(enword + " or " + hnwords + "already exists")
+        const duplicateResult = await duplicateOrNew(newEntry);
+        console.log(duplicateResult);
+        var enword = Object.keys(newEntry)[0]; // english word in the new entry
+        var hnword = newEntry[enword]["hindi_word"][1] // hindi word in the new entry
+        if (!duplicateResult) {
+            // if data doesn't already exists
+            newEntry = {
+                [enword]: {
+                    "english_description": "",
+                    "english_synonyms": "",
+                    "hindi_word": newEntry[enword]["hindi_word"],
+                    "hindi_description": newEntry[enword]["hindi_description"],
+                    "hindi_synonyms": newEntry[enword]["hindi_synonyms"]
+                }
             }
+            updateJson(newEntry);
+        } else {
+            alert("Dictinary word " + hnword + " already exists")
         }
-        catch (error) {
-            console.error("Error: ", error);
-        }
-    }
+    } 
 }
-
-
-
-
