@@ -329,7 +329,7 @@ async function addData() {
             "englishSynonyms": newWordArray[1],
             "englishDescription": newWordArray[2],
             "hindiWord": ["", ""],
-            "hindiSynonyms": "",
+            "hindiSynonyms": [],
             "hindiDescription": ""
         }
         console.log(newWordObj);
@@ -345,7 +345,7 @@ async function addData() {
         // only Hindi word needs to be added
         newWordObj[newWordArray[3][0]] = {
             "englishWord": "",
-            "englishSynonyms": "",
+            "englishSynonyms": [],
             "englishDescription": "",
             "hindiWord": newWordArray[3],
             "hindiSynonyms": newWordArray[4],
