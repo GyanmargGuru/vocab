@@ -4,8 +4,8 @@ const btn = document.querySelector('button');
 const dictionary = document.querySelector('.dictionary-table');
 const dictionaryPath = './data/dictionary.json'; // Assuming dictionary.json is in the same directory as your HTML file
 
-let timeout;
-let jsonData = null; // Initialize with null
+var timeout;
+var jsonData = null; // Initialize with null
 
 async function dictionarydw() {
     fetch(dictionaryPath) // Fetch the JSON file
@@ -30,22 +30,22 @@ async function dictionarysearch(searchWord) {
                 if (key.toLowerCase() === searchWord) {
                     const result = [key, value, "key"];
                     console.log("first", result);
-                    resolve({result_type: "first", result_value: result});
+                    resolve({resultType: "first", resultValue: result});
                     return;
-                } else if (value["hindi_word"].some(word =>word.toLowerCase() === searchWord)) {
+                } else if (value["hindiWord"].some(word =>word.toLowerCase() === searchWord)) {
                     const result = [key, value, "hw"];
                     console.log("second", result);
-                    resolve({result_type: "second", result_value: result});
+                    resolve({resultType: "second", resultValue: result});
                     return;
-                } else if (value["english_synonyms"].some(word =>word.toLowerCase() === searchWord)) {
+                } else if (value["englishSynonyms"].some(word =>word.toLowerCase() === searchWord)) {
                     const result = [key, value, "es"];
                     console.log("third", result);
-                    resolve({result_type: "third", result_value: result});
+                    resolve({resultType: "third", resultValue: result});
                     return;
-                } else if (value["hindi_synonyms"].some(word =>word.toLowerCase() === searchWord)) {
+                } else if (value["hindiSynonyms"].some(word =>word.toLowerCase() === searchWord)) {
                     const result = [key, value, "hs"];
                     console.log("fourth", result);
-                    resolve({result_type: "fourth", result_value: result});
+                    resolve({resultType: "fourth", resultValue: result});
                     return;
                 }
             }
@@ -83,7 +83,7 @@ async function fetchandcreatecolumns(){
     else if (result === null) {
         // The result is null
         dictionary.innerHTML = `
-        <div class="column_english">
+        <div class="columnEnglish">
             <div class="word">
                 <span>${input.value}</span>
             </div>
@@ -92,7 +92,7 @@ async function fetchandcreatecolumns(){
             <div class="property">English Synonyms </div>
             <div class="property">"No matching result found."</div>
         </div>
-        <div class="column_hindi">
+        <div class="columnHindi">
             <div class="word">
                 <span>${input.value}</span>
             </div>
@@ -103,100 +103,100 @@ async function fetchandcreatecolumns(){
         </div>
         `;
     }
-    else if (result.result_value !== null) {
+    else if (result.resultValue !== null) {
         // The result is not null
-        if (result.result_type === "first") {
+        if (result.resultType === "first") {
             //  if the search result is obtained from the key (which is the english word, not the synonyms)
             dictionary.innerHTML = `
-                <div class="column_english">
+                <div class="columnEnglish">
                     <div class="word">
-                        <span>${result.result_value[0]}</span>
+                        <span>${result.resultValue[0]}</span>
                     </div>
                     <div class="property">English description </div>
-                    <div class="property">${result.result_value[1]["english_description"]}</div>
+                    <div class="property">${result.resultValue[1]["englishDescription"]}</div>
                     <div class="property">English Synonyms </div>
-                    <div class="property">${result.result_value[1]["english_synonyms"].join(", ")}</div>
+                    <div class="property">${result.resultValue[1]["englishSynonyms"].join(", ")}</div>
                 </div>
-                <div class="column_hindi">
+                <div class="columnHindi">
                     <div class="word">
-                        <span>${result.result_value[1]["hindi_word"][1]}</span>
+                        <span>${result.resultValue[1]["hindiWord"][1]}</span>
                     </div>
                     <div class="property">Hindi description </div>
-                    <div class="property">${result.result_value[1]["hindi_description"]}</div>
+                    <div class="property">${result.resultValue[1]["hindiDescription"]}</div>
                     <div class="property">Hindi Synonyms </div>
-                    <div class="property">${result.result_value[1]["hindi_synonyms"].join(", ")}</div>  
+                    <div class="property">${result.resultValue[1]["hindiSynonyms"].join(", ")}</div>  
                 </div>
                 `;
         }
-        else if (result.result_type === "second") {
+        else if (result.resultType === "second") {
             //  if the search result is obtained from the hindi word, not the synonyms
             dictionary.innerHTML = `
-                <div class="column_english">
+                <div class="columnEnglish">
                     <div class="word">
-                        <span>${result.result_value[0]}</span>
+                        <span>${result.resultValue[0]}</span>
                     </div>
                     <div class="property">English description </div>
-                    <div class="property">${result.result_value[1]["english_description"]}</div>
+                    <div class="property">${result.resultValue[1]["englishDescription"]}</div>
                     <div class="property">English Synonyms </div>
-                    <div class="property">${result.result_value[1]["english_synonyms"].join(", ")}</div>
+                    <div class="property">${result.resultValue[1]["englishSynonyms"].join(", ")}</div>
                 </div>
-                <div class="column_hindi">
+                <div class="columnHindi">
                     <div class="word">
-                        <span>${result.result_value[1]["hindi_word"][1]}</span>
+                        <span>${result.resultValue[1]["hindiWord"][1]}</span>
                     </div>
                     <div class="property">Hindi description </div>
-                    <div class="property">${result.result_value[1]["hindi_description"]}</div>
+                    <div class="property">${result.resultValue[1]["hindiDescription"]}</div>
                     <div class="property">Hindi Synonyms </div>
-                    <div class="property">${result.result_value[1]["hindi_synonyms"].join(", ")}</div>  
+                    <div class="property">${result.resultValue[1]["hindiSynonyms"].join(", ")}</div>  
                 </div>
                 `;
 
         }
-        else if (result.result_type === "third") {
+        else if (result.resultType === "third") {
             //  if the search result is obtained from the english synonyms
             dictionary.innerHTML = `
-                <div class="column_english">
+                <div class="columnEnglish">
                     <div class="word">
                         <span>${toSentenceCase(input.value)}</span>
                     </div>
                     <div class="property">English description </div>
-                    <div class="property">${result.result_value[1]["english_description"]}</div>
+                    <div class="property">${result.resultValue[1]["englishDescription"]}</div>
                     <div class="property">English Synonyms </div>
-                    <div class="property">${result.result_value[1]["english_synonyms"].join(", ") + 
-                    ", " + result.result_value[0]}</div>
+                    <div class="property">${result.resultValue[1]["englishSynonyms"].join(", ") + 
+                    ", " + result.resultValue[0]}</div>
                 </div>
-                <div class="column_hindi">
+                <div class="columnHindi">
                     <div class="word">
-                        <span>${result.result_value[1]["hindi_word"][1]}</span>
+                        <span>${result.resultValue[1]["hindiWord"][1]}</span>
                     </div>
                     <div class="property">Hindi description </div>
-                    <div class="property">${result.result_value[1]["hindi_description"]}</div>
+                    <div class="property">${result.resultValue[1]["hindiDescription"]}</div>
                     <div class="property">Hindi Synonyms </div>
-                    <div class="property">${result.result_value[1]["hindi_synonyms"].join(", ")}</div>  
+                    <div class="property">${result.resultValue[1]["hindiSynonyms"].join(", ")}</div>  
                 </div>
                 `;
         }
-        else if (result.result_type === "fourth") {
+        else if (result.resultType === "fourth") {
             //  if the search result is obtained from hindi
             dictionary.innerHTML = `
-                <div class="column_english">
+                <div class="columnEnglish">
                     <div class="word">
-                        <span>${result.result_value[0]}</span>
+                        <span>${result.resultValue[0]}</span>
                     </div>
                     <div class="property">English description </div>
-                    <div class="property">${result.result_value[1]["english_description"]}</div>
+                    <div class="property">${result.resultValue[1]["englishDescription"]}</div>
                     <div class="property">English Synonyms </div>
-                    <div class="property">${result.result_value[1]["english_synonyms"].join(", ")}</div>
+                    <div class="property">${result.resultValue[1]["englishSynonyms"].join(", ")}</div>
                 </div>
-                <div class="column_hindi">
+                <div class="columnHindi">
                     <div class="word">
                         <span>${input.value}</span>
                     </div>
                     <div class="property">Hindi description </div>
-                    <div class="property">${result.result_value[1]["hindi_description"]}</div>
+                    <div class="property">${result.resultValue[1]["hindiDescription"]}</div>
                     <div class="property">Hindi Synonyms </div>
-                    <div class="property">${result.result_value[1]["hindi_synonyms"].join(", ") + 
-                    ", " + result.result_value[1]["hindi_word"][1]}</div>  
+                    <div class="property">${result.resultValue[1]["hindiSynonyms"].join(", ") + 
+                    ", " + result.resultValue[1]["hindiWord"][1]}</div>  
                 </div>
                 `;
         }
