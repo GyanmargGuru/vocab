@@ -1,6 +1,5 @@
 // > functionality # 1: for update/ deletion, search of word is required so load the json data as 
 // soon as the page loads
-
 const dictionaryPath = './data/dictionary.json'; // Assuming dictionary.json is in the same directory as your HTML file
 //const btn = document.querySelector('button');
 //const dictionary = document.querySelector('.dictionary-table');
@@ -9,15 +8,18 @@ var jsonData = null; // Initialize dictionary json (entire dictionary) with null
 
 
 async function dictionaryLoad() {
-    // This function reads the json file and stores the content as json 
-    fetch(dictionaryPath) // Fetch the JSON file
-        .then(response => response.json()) // Parse the JSON response
-        .then(dataDict => {
-            jsonData = dataDict; // Store the json data in variable to be searched
-        })
-        .catch(error => {
-            console.error("Error loading the dictionary:", error);
-        });
+    // This function reads the json file and stores the content as json
+    try {
+        const response = await fetch(dictionaryPath, {
+            headers: {
+                'Cache-Control': 'no-cache',
+            },
+        }) // Fetch the JSON file
+            .then(response => response.json())
+        jsonData = response; // Parse and store the JSON response
+    } catch (error) {
+        console.error("Error loading the dictionary:", error);
+    }
 }
 
 
@@ -205,6 +207,7 @@ function validateForm(newWordArray) {
             }
         } else if (newWordArray[1] !== "" && newWordArray[2] !== "") {
             // Valid English word with synonyms and description
+            alert("Valid English word entry")
             if (hindiValid) {
                 // Hindi word with synonyms and description
                 wordStatus = [true, true, true];
@@ -232,6 +235,7 @@ async function duplicateOrNew(newDictEntry) {
     const enword = Object.keys(newDictEntry)[0]; // english word in the new entry
     const hnwords = newDictEntry[enword]["hindiWord"]; // hindi word array in the new entry
     console.log(enword, hnwords);
+    await dictionaryLoad(); // reload dictionary
     return new Promise((resolve, reject) => {
         if (jsonData) {
             var result = false;
@@ -287,8 +291,8 @@ function updateJson(newWord) {
         body: JSON.stringify(newWord),
     })
         .then(response => response.text())
-        .then(data => {
-            alert(data);
+        .then(result => {
+            console.log(result);
         })
         .catch((error) => {
             console.error("Error: ", error);
@@ -296,8 +300,31 @@ function updateJson(newWord) {
 }
 
 
+function deleteJson(existingWordKey) {
+    console.log(existingWordKey);
+    // Assuming you have the key of the object to be deleted
+    var keyToDelete = existingWordKey; // Replace with the actual key
+    console.log(keyToDelete);
+    // Send an AJAX request to the PHP script
+    fetch('deleteJson.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: 'keyToDelete=' + encodeURIComponent(keyToDelete),
+    })
+        .then(response => response.text())
+        .then(result => {
+            console.log(result); // Output the result (success or failure)
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+}
+
+
 async function addData() {
-    dictionaryLoad(); // Update the dictionary in the browser
+    await dictionaryLoad(); // Update the dictionary in the browser
     var newWordArray = collectAddData();
     console.log(newWordArray);
     var wordStatus = validateForm(newWordArray);
@@ -361,4 +388,159 @@ async function addData() {
             alert("Dictinary word " + newWordArray[3][0] + " already exists")
         }
     } 
+}
+
+
+// > functionality #5: update or delete
+
+async function dictionarysearch(searchWord) {
+    console.log(searchWord);
+    return new Promise((resolve, reject) => {
+        if (jsonData) {
+            // Use the stored JSON data
+            for (const [key, value] of Object.entries(jsonData)) {
+                if (key.toLowerCase() === searchWord.toLowerCase()) {
+                    const result = [key, value];
+                    console.log("English Word", result);
+                    resolve({ resultType: "English", resultValue: result });
+                    return;
+                } else if (value["hindiWord"].some(word => word.toLowerCase() === searchWord.toLowerCase())) {
+                    const result = [key, value];
+                    console.log("Hindi Word", result);
+                    resolve({ resultType: "Hindi", resultValue: result });
+                    return;
+                } 
+            }
+            console.log("No Match");
+            resolve(null);  // Resolve with null when no match is found
+        } else {
+            reject("JSON data is not available. Check if it was downloaded when the page loaded first time"); // Reject the promise as JSON data is not available
+            return;
+        }
+    });
+}
+
+
+// get search button for update/ delete
+const searchButton = document.getElementById("searchButton");
+searchButton.addEventListener('click', () => {
+    const searchWord = document.getElementById("searchWord").value.trim();
+    searchAndPopulateWord(searchWord);
+});
+
+
+async function searchAndPopulateWord(searchWord) {
+    await dictionaryLoad(); // Update the dictionary in the browser
+    console.log(searchWord);
+    const result = await dictionarysearch(searchWord);
+    if (result) {
+        console.log(result.resultValue[1]);
+        existingWord = result.resultValue[1];
+        //document.getElementById("username").value = userData.username;
+        document.getElementById("updelEword").value = existingWord.englishWord;
+        document.getElementById("updelEsyn").value = existingWord.englishSynonyms;
+        document.getElementById("updelEdes").value = existingWord.englishDescription;
+        document.getElementById("updelHdword").value = existingWord.hindiWord[1];
+        document.getElementById("updelHrword").value = existingWord.hindiWord[0];
+        document.getElementById("updelHsyn").value = existingWord.hindiSynonyms;
+        document.getElementById("updelHdes").value = existingWord.hindiDescription; 
+    }
+}
+
+// get buttons and form by ids
+const updateButton = document.getElementById("updateButton");
+
+// set button listeners
+updateButton.addEventListener('click', () => {
+    updateData();
+});
+
+
+async function updateData() {
+    var newWordArray = collectUpdateData();
+    console.log(newWordArray);
+    var wordStatus = validateForm(newWordArray);
+    console.log(wordStatus);
+    var newWordObj = {};
+    if (wordStatus[0]) {
+        //both English and Hindi words are valid
+        newWordObj[newWordArray[0]] = {
+            "englishWord": newWordArray[0],
+            "englishSynonyms": newWordArray[1],
+            "englishDescription": newWordArray[2],
+            "hindiWord": newWordArray[3],
+            "hindiSynonyms": newWordArray[4],
+            "hindiDescription": newWordArray[5]
+        }
+        console.log(newWordObj);
+        console.log(newWordArray[0]);
+        deleteJson(newWordArray[0]); // delete the word which is to be updated
+        jsonData = null;
+        const duplicateResult = await duplicateOrNew(newWordObj);
+        console.log(duplicateResult);
+        if (!duplicateResult) {
+            // if data doesn't already exists
+            updateJson(newWordObj);
+        } else {
+            alert("Dictinary word " + newWordArray[0] + " or " + newWordArray[3][0] + " already exist")
+        }
+    } else if (wordStatus[1]) {
+        // only English word needs to be added
+        newWordObj[newWordArray[0]] = {
+            "englishWord": newWordArray[0],
+            "englishSynonyms": newWordArray[1],
+            "englishDescription": newWordArray[2],
+            "hindiWord": ["", ""],
+            "hindiSynonyms": [],
+            "hindiDescription": ""
+        }
+        console.log(newWordObj);
+        deleteJson(newWordArray[0]); // delete the word which is to be updated
+        jsonData = null;
+        const duplicateResult = await duplicateOrNew(newWordObj);
+        console.log(duplicateResult);
+        if (!duplicateResult) {
+            // if data doesn't already exists
+            updateJson(newWordObj);
+        } else {
+            alert("Dictinary word " + newWordArray[0] + " already exists");
+        }
+    } else if (wordStatus[2]) {
+        // only Hindi word needs to be added
+        newWordObj[newWordArray[3][0]] = {
+            "englishWord": "",
+            "englishSynonyms": [],
+            "englishDescription": "",
+            "hindiWord": newWordArray[3],
+            "hindiSynonyms": newWordArray[4],
+            "hindiDescription": newWordArray[5]
+        }
+        console.log(newWordObj);
+        deleteJson(newWordArray[3][0]);  // delete the word which is to be updated
+        jsonData = null;
+        const duplicateResult = await duplicateOrNew(newWordObj);
+        console.log(duplicateResult);
+        if (!duplicateResult) {
+            // if data doesn't already exists
+            updateJson(newWordObj);
+        } else {
+            alert("Dictinary word " + newWordArray[3][0] + " already exists")
+        }
+    }
+}
+
+
+// get buttons and form by ids
+const deleteButton = document.getElementById("deleteButton");
+
+// set button listeners
+deleteButton.addEventListener('click', () => {
+    deleteData();
+});
+
+async function deleteData() {
+    var newWordArray = collectUpdateData();
+    console.log(newWordArray);
+    deleteJson(newWordArray[0]); // delete the word
+    await dictionaryLoad();
 }
