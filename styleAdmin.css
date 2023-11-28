@@ -24,20 +24,49 @@ body {
 }
 
 .title {
-    display: flex;
     color: #FFD700;
     margin: auto;
-    display: grid;
+    display: flex;
     justify-content: center;
     align-items: center;
     height: 10vh;
     margin-bottom: 2rem;
 }
 
+.search-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    height: 5vh;
+    margin-bottom: 2rem;
+}
+
+.search-form input,
+.search-form button {
+    font-size: 1rem;
+    padding: .6rem 1rem;
+    background-color: white;
+    color: black;
+    width: 20rem;
+}
+
+.search-form button {   
+    cursor: pointer;
+    background-color: #FFD700;
+    border-left: 1px solid black;
+    width: 10rem;
+}
+
+.search-form button:hover {
+    background-color: #00FF40;
+    color: black
+}
+
 .form-table {
     display: grid;
     max-width: 50rem;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(10, 1fr);
     grid-template-rows: repeat(3, auto);
     column-gap: 1rem;
     row-gap: 1rem;
@@ -49,13 +78,16 @@ body {
     flex-direction: column;
     margin-top: 5px; 
     margin-bottom: 5px;
-    grid-column: span 2; /* Each form row spans two column by default */
+    grid-column: span 5; /* Each form row spans two column by default */
 }
 
- /*The following classes apply to specific form rows that should span specific columns */ 
+ /*The following classes apply to specific form rows that should span specific number of columns */ 
+.form-table .form-row:nth-child(1){
+    grid-column: span 4;
+}
 .form-table .form-row:nth-child(2), 
 .form-table .form-row:nth-child(3) {
-    grid-column: span 1;
+    grid-column: span 3;
 }
 /*
 .form-table .form-row:nth-child(1),

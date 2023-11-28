@@ -1,21 +1,4 @@
 {
-    "Experiencer": {
-        "englishWord": "Experiencer",
-        "englishDescription": "It is the part of the Existence to which the Existence appears as Experiences. It is essence of Existence of free of all qualities or attributes.",
-        "englishSynonyms": [
-            "Witness",
-            "Watcher"
-        ],
-        "hindiWord": [
-            "Anubhavkarta",
-            "अनुभवकर्ता"
-        ],
-        "hindiDescription": "अनुभवकर्ता",
-        "hindiSynonyms": [
-            "साक्षी",
-            "आत्मन"
-        ]
-    },
     "Existence": {
         "englishWord": "Existence",
         "englishDescription": "It is all that is percieved and unpercieved in past, present and future. It is everything physical, metaphysical, mental and non-mental, imagined and unimagined. True and False, Infinite and beyond comprehension. It has the Experiencer and Experience.",
@@ -74,5 +57,20 @@
             "रोक"
         ],
         "hindiDescription": "धातु से निर्मित एक उपकरण जो हाथियों को नियंत्रित करने के लिए इस्तेमाल किया जाता है"
+    },
+    "Experiencer": {
+        "englishWord": "Experiencer",
+        "englishSynonyms": [
+            "Witness,watcher"
+        ],
+        "englishDescription": "It is the part of the existence to which the existence appears as experiences. it is essence of existence of free of all qualities or attributes.",
+        "hindiWord": [
+            "Anubhavkarta",
+            "अनुभवकर्ता"
+        ],
+        "hindiSynonyms": [
+            "साक्षी,आत्मन"
+        ],
+        "hindiDescription": "अनुभवकर्ता"
     }
 }

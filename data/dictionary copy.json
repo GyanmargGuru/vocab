@@ -1,23 +1,78 @@
 {
-    "Experiencer":{
-        "english_description": "It is the part of the Existence to which the Existence appears as Experiences. It is essence of Existence of free of all qualities or attributes.",
-        "english_synonyms": ["Witness", "Watcher"],
-        "hindi_word": ["Anubhavkarta", "अनुभवकर्ता"],
-        "hindi_description": "अनुभवकर्ता",
-        "hindi_synonyms": ["साक्षी", "आत्मन"]
+    "Experiencer": {
+        "englishWord": "Experiencer",
+        "englishDescription": "It is the part of the Existence to which the Existence appears as Experiences. It is essence of Existence of free of all qualities or attributes.",
+        "englishSynonyms": [
+            "Witness",
+            "Watcher"
+        ],
+        "hindiWord": [
+            "Anubhavkarta",
+            "अनुभवकर्ता"
+        ],
+        "hindiDescription": "अनुभवकर्ता",
+        "hindiSynonyms": [
+            "साक्षी",
+            "आत्मन"
+        ]
     },
-    "Existence":{
-        "english_description": "It is all that is percieved and unpercieved in past, present and future. It is everything physical, metaphysical, mental and non-mental, imagined and unimagined. True and False, Infinite and beyond comprehension. It has the Experiencer and Experience.",
-        "english_synonyms": ["All that is", "Everything"],
-        "hindi_word": ["Astitva", "अस्तित्व"],
-        "hindi_description": "अस्तित्व",
-        "hindi_synonyms": ["ब्रहमन"]
+    "Existence": {
+        "englishWord": "Existence",
+        "englishDescription": "It is all that is percieved and unpercieved in past, present and future. It is everything physical, metaphysical, mental and non-mental, imagined and unimagined. True and False, Infinite and beyond comprehension. It has the Experiencer and Experience.",
+        "englishSynonyms": [
+            "All that is",
+            "Everything"
+        ],
+        "hindiWord": [
+            "Astitva",
+            "अस्तित्व"
+        ],
+        "hindiDescription": "अस्तित्व",
+        "hindiSynonyms": [
+            "ब्रहमन"
+        ]
     },
-    "Experience":{
-        "english_description": "It is the part of the Existence which appears is Experiences. It is the what appears from the sea of possibilities in the existence. It is limited by instruments of senses. ",
-        "english_synonyms": ["Perception", "Illusion"],
-        "hindi_word": ["Anubhav", "अनुभव"],
-        "hindi_description": "अनुभव", 
-        "hindi_synonyms": ["माया", "देवी"]
+    "Experience": {
+        "englishWord": "Experiencer",
+        "englishDescription": "It is the part of the Existence which appears is Experiences. It is the what appears from the sea of possibilities in the existence. It is limited by instruments of senses. ",
+        "englishSynonyms": [
+            "Perception",
+            "Illusion"
+        ],
+        "hindiWord": [
+            "Anubhav",
+            "अनुभव"
+        ],
+        "hindiDescription": "अनुभव",
+        "hindiSynonyms": [
+            "माया",
+            "देवी"
+        ]
+    },
+    "Akeerti": {
+        "englishWord": "",
+        "englishSynonyms": [],
+        "englishDescription": "",
+        "hindiWord": [
+            "Akeerti",
+            "अकीर्ति"
+        ],
+        "hindiSynonyms": [
+            "बदनामी"
+        ],
+        "hindiDescription": "समाज में ग़लत कार्यों या चीजों के लिए नाम होना"
+    },
+    "Ankush": {
+        "englishWord": "",
+        "englishSynonyms": [],
+        "englishDescription": "",
+        "hindiWord": [
+            "Ankush",
+            "अंकुश"
+        ],
+        "hindiSynonyms": [
+            "रोक"
+        ],
+        "hindiDescription": "धातु से निर्मित एक उपकरण जो हाथियों को नियंत्रित करने के लिए इस्तेमाल किया जाता है"
     }
 }
