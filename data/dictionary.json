@@ -1,4 +1,21 @@
 {
+    "Experiencer": {
+        "englishWord": "Experiencer",
+        "englishDescription": "It is the part of the Existence to which the Existence appears as Experiences. It is essence of Existence of free of all qualities or attributes.",
+        "englishSynonyms": [
+            "Witness",
+            "Watcher"
+        ],
+        "hindiWord": [
+            "Anubhavkarta",
+            "अनुभवकर्ता"
+        ],
+        "hindiDescription": "अनुभवकर्ता",
+        "hindiSynonyms": [
+            "साक्षी",
+            "आत्मन"
+        ]
+    },
     "Existence": {
         "englishWord": "Existence",
         "englishDescription": "It is all that is percieved and unpercieved in past, present and future. It is everything physical, metaphysical, mental and non-mental, imagined and unimagined. True and False, Infinite and beyond comprehension. It has the Experiencer and Experience.",
@@ -13,23 +30,6 @@
         "hindiDescription": "अस्तित्व",
         "hindiSynonyms": [
             "ब्रहमन"
-        ]
-    },
-    "Experience": {
-        "englishWord": "Experiencer",
-        "englishDescription": "It is the part of the Existence which appears is Experiences. It is the what appears from the sea of possibilities in the existence. It is limited by instruments of senses. ",
-        "englishSynonyms": [
-            "Perception",
-            "Illusion"
-        ],
-        "hindiWord": [
-            "Anubhav",
-            "अनुभव"
-        ],
-        "hindiDescription": "अनुभव",
-        "hindiSynonyms": [
-            "माया",
-            "देवी"
         ]
     },
     "Akeerti": {
@@ -58,6 +58,34 @@
         ],
         "hindiDescription": "धातु से निर्मित एक उपकरण जो हाथियों को नियंत्रित करने के लिए इस्तेमाल किया जाता है"
     },
+    "Experience": {
+        "englishWord": "Experience",
+        "englishSynonyms": [
+            "Perception,illusion"
+        ],
+        "englishDescription": "It is the part of the existence which appears as experiences. it is the what appears from the sea of possibilities in the existence. it is limited by instruments of senses.",
+        "hindiWord": [
+            "Anubhav",
+            "अनुभव"
+        ],
+        "hindiSynonyms": [
+            "माया,देवी"
+        ],
+        "hindiDescription": "अनुभव"
+    },
+    "Om": {
+        "englishWord": "",
+        "englishSynonyms": [],
+        "englishDescription": "",
+        "hindiWord": [
+            "Om",
+            "ॐ"
+        ],
+        "hindiSynonyms": [
+            ""
+        ],
+        "hindiDescription": "मौलिक ध्वनि 'ओ३म्'"
+    },
     "Antrang": {
         "englishWord": "",
         "englishSynonyms": [],
@@ -72,19 +100,31 @@
         ],
         "hindiDescription": "आंतरिक शरीर या आंतरिक प्रकृति"
     },
-    "Experiencer": {
-        "englishWord": "Experiencer",
-        "englishSynonyms": [
-            "Witness,watcher"
-        ],
-        "englishDescription": "It is the part of the keshav to which the existence appears as experiences. it is essence of existence of free of all qualities or attributes.",
+    "Amba": {
+        "englishWord": "",
+        "englishSynonyms": [],
+        "englishDescription": "",
         "hindiWord": [
-            "Anubhavkarta",
-            "अनुभवकर्ता"
+            "Amba",
+            "अंबा"
         ],
         "hindiSynonyms": [
-            "साक्षी,आत्मन"
+            ""
         ],
-        "hindiDescription": "अनुभवकर्ता"
+        "hindiDescription": "माँ"
+    },
+    "Example_english": {
+        "englishWord": "Example_english",
+        "englishSynonyms": [
+            "Example_e",
+            "Example_e"
+        ],
+        "englishDescription": "Example_e",
+        "hindiWord": [
+            "",
+            ""
+        ],
+        "hindiSynonyms": [],
+        "hindiDescription": ""
     }
 }
