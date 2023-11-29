@@ -58,12 +58,26 @@
         ],
         "hindiDescription": "धातु से निर्मित एक उपकरण जो हाथियों को नियंत्रित करने के लिए इस्तेमाल किया जाता है"
     },
+    "Antrang": {
+        "englishWord": "",
+        "englishSynonyms": [],
+        "englishDescription": "",
+        "hindiWord": [
+            "Antrang",
+            "अंतरंग"
+        ],
+        "hindiSynonyms": [
+            "भावनाओं",
+            "अंदर"
+        ],
+        "hindiDescription": "आंतरिक शरीर या आंतरिक प्रकृति"
+    },
     "Experiencer": {
         "englishWord": "Experiencer",
         "englishSynonyms": [
             "Witness,watcher"
         ],
-        "englishDescription": "It is the part of the existence to which the existence appears as experiences. it is essence of existence of free of all qualities or attributes.",
+        "englishDescription": "It is the part of the keshav to which the existence appears as experiences. it is essence of existence of free of all qualities or attributes.",
         "hindiWord": [
             "Anubhavkarta",
             "अनुभवकर्ता"
