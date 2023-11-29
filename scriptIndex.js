@@ -4,24 +4,26 @@ const btn = document.querySelector('button');
 const dictionary = document.querySelector('.dictionary-table');
 const dictionaryPath = './data/dictionary.json'; // Assuming dictionary.json is in the same directory as your HTML file
 
-var timeout;
-var jsonData = null; // Initialize with null
 
-async function dictionarydw() {
-    fetch(dictionaryPath) // Fetch the JSON file
-        .then(response => response.json()) // Parse the JSON response
-        .then(dataDict => {
-            jsonData = dataDict; // Store the json data in variable to be searched
-        })
-        .catch(error => {
-            console.error("Error loading the dictionary:", error);
-            reject(error);
-        });
+async function dictionaryLoad() {
+    // This function reads the json file and stores the content as json
+    try {
+        const response = await fetch(dictionaryPath, {
+            headers: {
+                'Cache-Control': 'no-cache',
+            },
+        }) // Fetch the JSON file
+        const jsonData = await response.json(); // Parse and store the JSON response in jsonData
+        return jsonData;
+    } catch (error) {
+        console.error("Error loading the dictionary:", error);
+        throw error;
+    }
 }
 
-dictionarydw(); // Call the dictionary download function when the page loads
 
 async function dictionarysearch(searchWord) {
+    let jsonData = await dictionaryLoad();
     console.log(searchWord);
     return new Promise((resolve, reject) => {
         if (jsonData) {
@@ -58,16 +60,18 @@ async function dictionarysearch(searchWord) {
     });
 }
 
-btn.addEventListener('click', fetchandcreatecolumns)
 
-input.addEventListener('input', function() {
+btn.addEventListener('click', fetchandcreatecolumns())
+
+input.addEventListener('input', function () {
+    let timeout;
     clearTimeout(timeout); // clear previous timer (if any)
-
     timeout = setTimeout(function() {
         // Perform search
         fetchandcreatecolumns();
     }, delay);
 });
+
 
 function toSentenceCase(inputString) {
     return inputString.charAt(0).toUpperCase() + inputString.slice(1).toLowerCase();
