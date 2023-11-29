@@ -35,23 +35,25 @@ body {
 
 .search-form {
     display: flex;
-    justify-content: center;
     align-items: center;
+    width: 40rem;
     margin: auto;
     height: 5vh;
     margin-bottom: 2rem;
+    background-color: white;
 }
 
 .search-form input,
 .search-form button {
+    flex-basis: 65%;
     font-size: 1rem;
     padding: .6rem 1rem;
-    background-color: white;
     color: black;
     width: 20rem;
 }
 
 .search-form button {   
+    flex-basis: 35%;
     cursor: pointer;
     background-color: #FFD700;
     border-left: 1px solid black;
