@@ -1,9 +1,7 @@
-const input = document.querySelector('input');
-const delay = 300; // Adjust the delay in milliseconds (e.g., 300 milliseconds)
-const btn = document.querySelector('button');
-const dictionary = document.querySelector('.dictionary-table');
+const dictionary = document.querySelector('.dictionaryTable');
 const dictionaryPath = './data/dictionary.json'; // Assuming dictionary.json is in the same directory as your HTML file
 
+var jsonData = null;
 
 async function dictionaryLoad() {
     // This function reads the json file and stores the content as json
@@ -13,17 +11,22 @@ async function dictionaryLoad() {
                 'Cache-Control': 'no-cache',
             },
         }) // Fetch the JSON file
-        const jsonData = await response.json(); // Parse and store the JSON response in jsonData
-        return jsonData;
+        jsonDict = await response.json(); // Parse and store the JSON response in jsonData
+        return jsonDict;
     } catch (error) {
         console.error("Error loading the dictionary:", error);
         throw error;
     }
 }
 
+async function runOnce() {
+    jsonData = await dictionaryLoad();
+}
+
+runOnce();
+
 
 async function dictionarysearch(searchWord) {
-    let jsonData = await dictionaryLoad();
     console.log(searchWord);
     return new Promise((resolve, reject) => {
         if (jsonData) {
@@ -61,15 +64,35 @@ async function dictionarysearch(searchWord) {
 }
 
 
-btn.addEventListener('click', fetchandcreatecolumns())
+async function keySearch(searchWord) {
+    console.log(searchWord);
+    foundKeys = [];
+    return new Promise((resolve, reject) => {
+        if (jsonData) {
+            // Use the stored JSON data
+            for (const [key, value] of Object.entries(jsonData)) {
+                if (key.toLowerCase().includes(searchWord)) {
+                    foundKeys.push(key);
+                    console.log(key);
+                } else if (value["hindiWord"].some(word => word.toLowerCase().includes(searchWord))) {
+                    foundKeys.push(word);
+                    console.log(word);
+                } 
+            }
+            resolve(foundKeys);  // Resolve with null when no match is found
+        } else {
+            reject("JSON data is not available. Check if it was downloaded when the page loaded first time"); // Reject the promise as JSON data is not available
+            return;
+        }
+    });
+}
 
-input.addEventListener('input', function () {
-    let timeout;
-    clearTimeout(timeout); // clear previous timer (if any)
-    timeout = setTimeout(function() {
-        // Perform search
-        fetchandcreatecolumns();
-    }, delay);
+
+// get search button and add function for full word input and click
+const searchButton = document.getElementById("searchButton");
+searchButton.addEventListener('click', () => {
+    const searchWord = document.getElementById("searchWord").value.trim();
+    fetchandcreatecolumns(searchWord);
 });
 
 
@@ -78,9 +101,9 @@ function toSentenceCase(inputString) {
 }
 
 
-async function fetchandcreatecolumns(){
-    const result = await dictionarysearch(input.value.trim().toLowerCase());
-    if (input.value.trim() === '') {
+async function fetchandcreatecolumns(searchWord) {
+    const result = await dictionarysearch(searchWord.toLowerCase());
+    if (searchWord === '') {
         // search word is blank
         dictionary.innerHTML = '';
     }
@@ -206,3 +229,51 @@ async function fetchandcreatecolumns(){
         }
     }     
 }
+
+// Add functionality for suggestion
+
+async function fetchAndListKeys() {
+    document.addEventListener('DOMContentLoaded', function () {
+        const searchInput = document.getElementById("searchWord");
+        const suggestionsList = document.getElementById("suggestionsList");
+
+        searchInput.addEventListener('input', async function () {
+            const suggestWord = document.getElementById("searchWord").value.trim();
+
+            // Clear previous suggestions
+            suggestionsList.innerHTML = '';
+
+            // Show suggestions when at least 3 characters are typed
+            if (suggestWord.length >= 3) {
+                const mockSuggestions = await keySearch(suggestWord.toLowerCase());
+                console.log(mockSuggestions.length, mockSuggestions);
+                // Populate the suggestions list
+                if (mockSuggestions.length > 0) {
+                    mockSuggestions.forEach(function (suggestion) {
+                        const li = document.createElement('li');
+                        li.textContent = suggestion;
+                        // Handle suggestion click
+                        li.addEventListener('click', function () {
+                            searchInput.value = suggestion;
+                            suggestionsList.style.display = 'none';
+                        });
+                        suggestionsList.appendChild(li);
+                    });
+
+                    // Show the suggestions list
+                    suggestionsList.style.display = 'block';
+                }
+            } else {
+                suggestionsList.style.display = 'none';
+            }
+        });
+        // Hide suggestions on outside click
+        document.addEventListener('click', function (event) {
+            if (!searchInput.contains(event.target) && !suggestionsList.contains(event.target)) {
+                suggestionsList.style.display = 'none';
+            }
+        });
+    });
+}
+
+fetchAndListKeys();
