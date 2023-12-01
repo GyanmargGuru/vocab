@@ -112,7 +112,7 @@ async function fetchandcreatecolumns(searchWord) {
         dictionary.innerHTML = `
         <div class="columnEnglish">
             <div class="word">
-                <span>${input.value}</span>
+                <span>"No Match"</span>
             </div>
             <div class="property">English description </div>
             <div class="property">"No matching result found."</div>
@@ -121,7 +121,7 @@ async function fetchandcreatecolumns(searchWord) {
         </div>
         <div class="columnHindi">
             <div class="word">
-                <span>${input.value}</span>
+                <span>"No Match"</span>
             </div>
             <div class="property">Hindi description </div>
             <div class="property">"No matching result found."</div>
